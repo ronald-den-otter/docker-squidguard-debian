@@ -2,7 +2,7 @@ squidguard:
   # either - build your git clone:
   #build: .
   # or use the image from docker hub:
-  image: muenchhausen/docker-squidguard:latest
+  image: joaquinpolom/squidguard-debian:latest
   environment:
     # WPAD is optional 
     - WPAD_IP=192.168.99.100
