@@ -13,7 +13,7 @@ this image is an [squidGuard](http://www.squidguard.org/) addition to [sameersbn
 create a docker-compose.yml file
 ```
 squidguard:
-  image: muenchhausen/docker-squidguard:latest
+  image: bandwith/squidguard-debian:latest
   environment:
     - UPDATE_BLACKLIST_URL=http://www.shallalist.de/Downloads/shallalist.tar.gz
   ports:
@@ -23,14 +23,14 @@ squidguard:
     - 3128
     - 80
 ```
-Setting the env Variable UPDATE_BLACKLIST_URL, the configuration in folder [sample-config-blacklist](https://github.com/muenchhausen/docker-squidguard/blob/master/sample-config-blacklist) will be used. Otherwise the [sample-config-simple](https://github.com/muenchhausen/docker-squidguard/blob/master/sample-config-simple) is used. In practice you need to configure your own black- and whitelists - see the next sample.
+Setting the env Variable UPDATE_BLACKLIST_URL, the configuration in folder [sample-config-blacklist](https://github.com/bandwith/docker-squidguard-debian/blob/master/sample-config-blacklist) will be used. Otherwise the [sample-config-simple](https://github.com/bandwith/docker-squidguard-debian/blob/master/sample-config-simple) is used. In practice you need to configure your own black- and whitelists - see the next sample.
 
 ## Sample 2: own whitelists
 
 create a docker-compose.yml file:
 ```
 squidguard:
-  image: muenchhausen/docker-squidguard:latest
+  image: bandwith/squidguard-debian:latest
   environment:
     - SQUID_CONFIG_SOURCE=/custom-config
     - SQUID_UID=1000          # only required if MAC OS is used: UserID for user proxy
