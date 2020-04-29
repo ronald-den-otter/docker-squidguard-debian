@@ -1,5 +1,5 @@
 FROM joaquinpolom/squid-debian:latest
-MAINTAINER joaquin.polo@gmail.com
+# MAINTAINER joaquin.polo@gmail.com
 
 RUN apt-get update \
  && apt-get install -y wget \ 

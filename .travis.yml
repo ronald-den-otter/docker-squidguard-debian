@@ -2,14 +2,14 @@ sudo: required
 services:
   - docker
 
-env:
-  DOCKER_COMPOSE_VERSION: 1.5.2
+# env:
+#   DOCKER_COMPOSE_VERSION: 1.5.2
 
-before_install:
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
+# before_install:
+#   - sudo rm /usr/local/bin/docker-compose
+#   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+#   - chmod +x docker-compose
+#   - sudo mv docker-compose /usr/local/bin
 
 script:
   - docker-compose build
@@ -24,6 +24,6 @@ script:
   # lemonlime.de should be blocked because it is not in the whitelist
   - docker-compose run squidguard wget -e use_proxy=yes -e http_proxy=http://squidguard:3128 --content-on-error -qO- http://www.lemonlime.de | grep "block"
 
-notifications:
-  email:
-    - derk@muenchhausen.de
+# notifications:
+#   email:
+#     - derk@muenchhausen.de

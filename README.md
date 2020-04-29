@@ -1,4 +1,4 @@
-## Introduction [![Build Status](https://travis-ci.org/muenchhausen/docker-squidguard.svg?branch=master)](https://travis-ci.org/muenchhausen/docker-squidguard)
+## Introduction [![Build Status](https://travis-ci.org/bandwith/docker-squidguard-debian.svg?branch=master)](https://travis-ci.org/bandwith/docker-squidguard-debian)
 
 this image is an [squidGuard](http://www.squidguard.org/) addition to [sameersbn/docker-squid](https://github.com/sameersbn/docker-squid). I find squidGuard very useful to limit access to certain internet pages and to reduce the risk for downloading dangerous software. A central filtering solution is preferred especially if you have a family with children and different devices.
 

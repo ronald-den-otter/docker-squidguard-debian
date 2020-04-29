@@ -2,9 +2,9 @@
 set -e
 
 if [  "${UPDATE_BLACKLIST_URL}" != "" ]; then
-	sudo wget -O backlist.tar.gz ${UPDATE_BLACKLIST_URL} \
- 		&& tar -xzf backlist.tar.gz -C /var/lib/squidguard/db \
- 		&& rm backlist.tar.gz \
+	sudo wget -O blacklist.tar.gz ${UPDATE_BLACKLIST_URL} \
+ 		&& tar -xzf blacklist.tar.gz -C /var/lib/squidguard/db \
+ 		&& rm blacklist.tar.gz \
  		&& chown proxy:proxy /var/lib/squidguard/db -R
 fi
 
