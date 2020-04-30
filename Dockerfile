@@ -14,6 +14,9 @@ RUN echo 'AddType application/x-ns-proxy-autoconfig .dat' >> /etc/apache2/httpd.
 ADD wpad.dat /var/www/html/wpad.dat
 ADD block.html /var/www/html/block.html
 
+RUN sed -i '/http_access allow localnet/s/^#//g' /etc/squid/squid.conf
+RUN echo "dns_v4_first on" >> /etc/squid/squid.conf
+RUN echo "forward_max_tries 25" >> /etc/squid/squid.conf
 RUN echo "redirect_program /usr/bin/squidGuard -c /etc/squidguard/squidGuard.conf" >> /etc/squid/squid.conf
 
 RUN rm /etc/squidguard/squidGuard.conf
