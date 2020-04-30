@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 
 if [  "${UPDATE_BLACKLIST_URL}" != "" ]; then

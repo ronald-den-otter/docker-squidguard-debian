@@ -1,4 +1,5 @@
 .git
+.travis.yml
 circle.yml
 LICENSE
 VERSION
