@@ -17,6 +17,7 @@ if [ ! -f /etc/squidguard/squidGuard.conf ]; then
 	fi
 	# chown is required especially because directories can be mapped
 	chown -R proxy:proxy /var/lib/squidguard/db /sample-config-simple /sample-config-blacklist /custom-config /var/log/squid
+	chmod -R 755 /var/lib/squidguard/db
 
 	if [  "${SQUID_CONFIG_SOURCE}" != "" ]; then
 		echo "no configuration found -> use ${SQUID_CONFIG_SOURCE}/squidGuard.conf"		
