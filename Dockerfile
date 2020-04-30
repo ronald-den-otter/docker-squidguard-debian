@@ -1,5 +1,4 @@
-FROM joaquinpolom/squid-debian:latest
-# MAINTAINER joaquin.polo@gmail.com
+FROM debian:stable-slim
 
 RUN apt-get update \
  && apt-get install -y wget \ 
