@@ -27,9 +27,10 @@ tarpath="/bin/tar"
 chownpath="/bin/chown"
 
 httpget="/usr/bin/wget"
+
 shallalist="http://www.shallalist.de/Downloads/shallalist.tar.gz"
 
-dbhome="/var/lib/squidguard/db"     # like in squidGuard.conf
+dbhome="/var/lib/squidguard/db/BL"     # like in squidGuard.conf
 squidGuardowner="proxy:proxy"
 
 ##########################################
@@ -51,7 +52,7 @@ fi
 
 if [ ! -d  $dbhome ]
  then echo "Could not locate squid db directory."
-      exit 1
+    mkdir -p $dbhome
 fi
 
 # check that everything is clean before we start.
@@ -77,12 +78,15 @@ echo "Unzippping shallalist.tar.gz"
 
 $tarpath xzf $workdir/shallalist.tar.gz -C $workdir || { echo "Unable to extract $workdir/shallalist.tar.gz." && exit 1 ; }
 
+
+
+
 # Create diff files for all categories
 # Note: There is no reason to use all categories unless this is exactly
 #       what you intend to block. Make sure that only the categories you
 #       are going to block with squidGuard are listed below.
 
-CATEGORIES="adv adv/domains aggressive automobile/cars automobile/bikes automobile/planes automobile/boats chat dating downloads drugs dynamic finance/banking finance/insurance finance/other finance/moneylending finance/realestate forum gamble hacking hobby/cooking hobby/games hobby/pets hospitals imagehosting isp jobsearch models movies music news podcasts politcs porn recreation/humor recreation/sports recreation/travel recreation/wellness redirector religion ringtones science/astronomy science/chemistry searchengines sex/lingerie shopping socialnet spyware tracker updatesites violence warez weapons webmail webphone webradio webtv" 
+CATEGORIES="adv aggressive automobile/cars automobile/bikes automobile/planes automobile/boats chat dating downloads drugs dynamic finance/banking finance/insurance finance/other finance/moneylending finance/realestate forum gamble hacking hobby/cooking hobby/pets hospitals imagehosting isp jobsearch models movies music news podcasts porn recreation/humor recreation/sports recreation/travel recreation/wellness redirector religion ringtones science/astronomy science/chemistry searchengines sex/lingerie shopping socialnet spyware tracker updatesites violence warez weapons webmail webphone webradio webtv" 
 
 echo "Creating diff files."
 # The "cp" after the "diff" ensures that we keep up to date with our 
@@ -90,25 +94,27 @@ echo "Creating diff files."
 for cat in $CATEGORIES
 do
 
-if [ ! -f $dbhome/${cat}/domains ]
-  then
-    cp $workdir/BL/${cat}/domains $dbhome/${cat}/domains
-fi
-
 if [ -f $workdir/BL/${cat}/domains ] && [ -f $dbhome/${cat}/domains ]
   then
     diff -U 0 $dbhome/${cat}/domains $workdir/BL/${cat}/domains |grep -v "^---"|grep -v "^+++"|grep -v "^@@" > $dbhome/${cat}/domains.diff
     cp $workdir/BL/${cat}/domains $dbhome/${cat}/domains
 fi
 
-if [ ! -f $dbhome/${cat}/urls ]
+if [ -f $workdir/BL/${cat}/domains ] && [ ! -f $dbhome/${cat}/domains ]
   then
-    cp $workdir/BL/${cat}/urls $dbhome/${cat}/urls
+    mkdir -p $dbhome/${cat}/
+    cp $workdir/BL/${cat}/domains $dbhome/${cat}/domains
 fi
 
 if [ -f $workdir/BL/${cat}/urls ] && [ -f $dbhome/${cat}/urls ]
   then
     diff -ur $dbhome/${cat}/urls $workdir/BL/${cat}/urls > $dbhome/${cat}/urls.diff
+    cp $workdir/BL/${cat}/urls $dbhome/${cat}/urls
+fi
+
+if [ -f $workdir/BL/${cat}/urls ] && [ ! -f $dbhome/${cat}/urls ]
+  then
+    mkdir -p $dbhome/${cat}/
     cp $workdir/BL/${cat}/urls $dbhome/${cat}/urls
 fi
 
@@ -122,8 +128,8 @@ cd $dbhome
 find . -type f -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
 
-echo "Updating squid db files with diffs."
-$squidGuardpath -u all
+# echo "Updating squid db files with diffs."
+# $squidGuardpath -u all
 
 echo "Reconfiguring squid."
 $squidpath -k reconfigure
