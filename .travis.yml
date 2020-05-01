@@ -17,6 +17,8 @@ script:
   # everything running?
   - docker-compose ps
   - docker-compose ps squidguard | grep Up
+  # update blocklist
+  - docker-compose run /etc/cron.daily/shalla_update.v2.sh
   # wpad should be available
   - docker-compose run squidguard wget -o /dev/null http://localhost/wpat.dat
   # muenchhausen.de should not be blocked

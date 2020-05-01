@@ -25,7 +25,10 @@ squidGuardpath="/usr/bin/squidGuard"
 squidpath="/usr/sbin/squid"
 tarpath="/bin/tar"
 chownpath="/bin/chown"
+
 httpget="/usr/bin/wget"
+shallalist="http://www.shallalist.de/Downloads/shallalist.tar.gz"
+
 dbhome="/var/lib/squidguard/db"     # like in squidGuard.conf
 squidGuardowner="proxy:proxy"
 
