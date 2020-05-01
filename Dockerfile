@@ -15,8 +15,8 @@ RUN echo 'AddType application/x-ns-proxy-autoconfig .dat' >> /etc/apache2/httpd.
 ADD wpad.dat /var/www/html/wpad.dat
 ADD block.html /var/www/html/block.html
 
-ADD shalla_update.v2.sh /etc/cron.daily/shalla_update.v2.sh
-RUN chmod 755 /etc/cron.daily/shalla_update.v2.sh
+ADD shalla_update.v2.sh /etc/cron.daily/shalla_update.sh
+RUN chmod 755 /etc/cron.daily/shalla_update.sh
 
 RUN sed -i '/http_access allow localnet/s/^#//g' /etc/squid/squid.conf
 RUN echo "dns_v4_first on" >> /etc/squid/squid.conf

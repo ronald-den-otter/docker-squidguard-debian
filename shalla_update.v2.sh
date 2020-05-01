@@ -131,8 +131,8 @@ find . -type d -exec chmod 755 {} \;
 # echo "Updating squid db files with diffs."
 # $squidGuardpath -u all
 
-echo "Reconfiguring squid."
-$squidpath -k reconfigure
+# echo "Reconfiguring squid."
+# $squidpath -k reconfigure
 
 echo "Clean up downloaded file and directories."
 rm $workdir/shallalist.tar.gz
