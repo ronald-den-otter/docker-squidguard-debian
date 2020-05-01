@@ -82,7 +82,7 @@ $tarpath xzf $workdir/shallalist.tar.gz -C $workdir || { echo "Unable to extract
 #       what you intend to block. Make sure that only the categories you
 #       are going to block with squidGuard are listed below.
 
-CATEGORIES="adv aggressive automobile/cars automobile/bikes automobile/planes automobile/boats chat dating downloads drugs dynamic finance/banking finance/insurance finance/other finance/moneylending finance/realestate forum gamble hacking hobby/cooking hobby/games hobby/pets hospitals imagehosting isp jobsearch models movies music news podcasts politcs porn recreation/humor recreation/sports recreation/travel recreation/wellness redirector religion ringtones science/astronomy science/chemistry searchengines sex/lingerie shopping socialnet spyware tracker updatesites violence warez weapons webmail webphone webradio webtv" 
+CATEGORIES="adv adv/domains aggressive automobile/cars automobile/bikes automobile/planes automobile/boats chat dating downloads drugs dynamic finance/banking finance/insurance finance/other finance/moneylending finance/realestate forum gamble hacking hobby/cooking hobby/games hobby/pets hospitals imagehosting isp jobsearch models movies music news podcasts politcs porn recreation/humor recreation/sports recreation/travel recreation/wellness redirector religion ringtones science/astronomy science/chemistry searchengines sex/lingerie shopping socialnet spyware tracker updatesites violence warez weapons webmail webphone webradio webtv" 
 
 echo "Creating diff files."
 # The "cp" after the "diff" ensures that we keep up to date with our 
@@ -90,10 +90,20 @@ echo "Creating diff files."
 for cat in $CATEGORIES
 do
 
+if [ ! -f $dbhome/${cat}/domains ]
+  then
+    cp $workdir/BL/${cat}/domains $dbhome/${cat}/domains
+fi
+
 if [ -f $workdir/BL/${cat}/domains ] && [ -f $dbhome/${cat}/domains ]
   then
     diff -U 0 $dbhome/${cat}/domains $workdir/BL/${cat}/domains |grep -v "^---"|grep -v "^+++"|grep -v "^@@" > $dbhome/${cat}/domains.diff
     cp $workdir/BL/${cat}/domains $dbhome/${cat}/domains
+fi
+
+if [ ! -f $dbhome/${cat}/urls ]
+  then
+    cp $workdir/BL/${cat}/urls $dbhome/${cat}/urls
 fi
 
 if [ -f $workdir/BL/${cat}/urls ] && [ -f $dbhome/${cat}/urls ]
