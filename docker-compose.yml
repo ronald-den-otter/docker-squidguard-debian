@@ -1,8 +1,8 @@
 squidguard:
   # either - build your git clone:
-  # build: .
+  build: .
   # or use the image from docker hub:
-  image: bandwith/squidguard-debian:latest
+  # image: bandwith/squidguard-debian:latest
   hostname: squidguard
   environment:
     # WPAD is optional 
