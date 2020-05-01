@@ -26,4 +26,5 @@ squidguard:
     # example mapping for SQUID_CONFIG_SOURCE
     #- /Users/derk/Documents/GitProjects/docker-squidguard/myconfig:/custom-config
     # example mapping for squid log directory
-    #- /Users/derk/Documents/GitProjects/docker-squidguard/mylog:/var/log/squid3
+    #- /Users/derk/Documents/GitProjects/docker-squidguard/mylog:/var/log/squid
+  restart: unless-stopped
