@@ -8,7 +8,8 @@ RUN apt-get update \
 
 ENV SQUID_CACHE_DIR=/var/spool/squid \
     SQUID_LOG_DIR=/var/log/squid \
-    SQUID_USER=proxy
+    SQUID_USER=proxy \
+    UPDATE_BLACKLIST_URL=http://www.shallalist.de/Downloads/shallalist.tar.gz
 
 RUN echo 'AddType application/x-ns-proxy-autoconfig .dat' >> /etc/apache2/httpd.conf
 ADD wpad.dat /var/www/html/wpad.dat
