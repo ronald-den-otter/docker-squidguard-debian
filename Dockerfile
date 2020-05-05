@@ -35,7 +35,8 @@ ADD startSquidGuard /startSquidGuard
 RUN chmod a+x /startSquidGuard
 
 EXPOSE 3128 80
-VOLUME ["/var/log/squid"]
-VOLUME ["/custom-config"]
+VOLUME [ "/var/log/squid" ]
+VOLUME [ "/custom-config" ]
+VOLUME [ "/var/lib/squidguard/db" ]
 
-CMD ["/startSquidGuard"]
+CMD [ "/startSquidGuard" ]
