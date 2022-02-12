@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash -x
 set -e
 
 if [  "${UPDATE_BLACKLIST_URL}" != "" ]; then
@@ -19,10 +19,14 @@ if [ ! -f /etc/squidguard/squidGuard.conf ]; then
 	chown -R proxy:proxy /var/lib/squidguard/db /sample-config-simple /sample-config-blacklist /custom-config /var/log/squid
 	chmod -R 755 /var/lib/squidguard/db
 
-	if [  "${SQUID_CONFIG_SOURCE}" != "" ]; then
-		echo "no configuration found -> use ${SQUID_CONFIG_SOURCE}/squidGuard.conf"		
-		ln -s ${SQUID_CONFIG_SOURCE}/squidGuard.conf /etc/squidguard/squidGuard.conf
-	elif [  "${UPDATE_BLACKLIST_URL}" != "" ]; then
+	if [  -n "${SQUID_CONFIG_SOURCE}" ]; then
+	  if [ -f "${SQUID_CONFIG_SOURCE}/squidGuard.conf" ]; then
+      [ -f " /etc/squidguard/squidGuard.conf" ] && rm -f  /etc/squidguard/squidGuard.conf
+  		ln -s ${SQUID_CONFIG_SOURCE}/squidGuard.conf /etc/squidguard/squidGuard.conf
+  	else
+    	echo "no configuration found"
+	  fi
+	elif [  -n "${UPDATE_BLACKLIST_URL}" ]; then
 	    echo "no configuration found -> use /sample-config-blacklist"
 		ln -s /sample-config-blacklist/squidGuard.conf /etc/squidguard/squidGuard.conf
 	else
@@ -33,7 +37,7 @@ fi
 
 echo "running startSquidGuard with WPAD_IP=${WPAD_IP} WPAD_NOPROXY_NET=${WPAD_NOPROXY_NET} WPAD_NOPROXY_MASK=${WPAD_NOPROXY_MASK}"
 
-if [  "${SQUID_CONFIG_SOURCE}" != "" ]; then
+if [  -n "${SQUID_CONFIG_SOURCE}" ]; then
 	if [ -f ${SQUID_CONFIG_SOURCE}/wpad.dat ]; then
 		cp ${SQUID_CONFIG_SOURCE}/wpad.dat /var/www/html/
 	else

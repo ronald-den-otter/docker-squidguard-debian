@@ -19,7 +19,6 @@ ADD shalla_update.v2.sh /etc/cron.daily/shalla_update.sh
 RUN chmod 755 /etc/cron.daily/shalla_update.sh
 
 RUN sed -i '/http_access allow localnet/s/^#//g' /etc/squid/squid.conf
-RUN echo "dns_v4_first on" >> /etc/squid/squid.conf
 RUN echo "forward_max_tries 25" >> /etc/squid/squid.conf
 RUN echo "redirect_program /usr/bin/squidGuard -c /etc/squidguard/squidGuard.conf" >> /etc/squid/squid.conf
 
