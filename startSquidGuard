@@ -36,29 +36,6 @@ if [ ! -f /etc/squidguard/squidGuard.conf ]; then
 	fi
 fi
 
-echo "running startSquidGuard with WPAD_IP=${WPAD_IP} WPAD_NOPROXY_NET=${WPAD_NOPROXY_NET} WPAD_NOPROXY_MASK=${WPAD_NOPROXY_MASK}"
-
-if [  -n "${SQUID_CONFIG_SOURCE}" ]; then
-	if [ -f ${SQUID_CONFIG_SOURCE}/wpad.dat ]; then
-		cp ${SQUID_CONFIG_SOURCE}/wpad.dat /var/www/html/
-	else
-		echo "wpad file ${SQUID_CONFIG_SOURCE}/wpad.dat does not exist. Use existing file."
-	fi
-	if [ -f ${SQUID_CONFIG_SOURCE}/block.html ]; then
-		cp ${SQUID_CONFIG_SOURCE}/block.html /var/www/html/
-	else
-		echo "wpad file ${SQUID_CONFIG_SOURCE}/wpad.dat does not exist. Use existing file."
-	fi
-fi
-
-if [  "${WPAD_IP}" != "" ]; then
-	sed 's/{{WPAD_IP}}/'"${WPAD_IP}"'/' -i /var/www/html/wpad.dat
-	sed 's/{{WPAD_NOPROXY_NET}}/'"${WPAD_NOPROXY_NET}"'/' -i /var/www/html/wpad.dat
-	sed 's/{{WPAD_NOPROXY_MASK}}/'"${WPAD_NOPROXY_MASK}"'/' -i /var/www/html/wpad.dat
-fi
-
-# start apache to serve wpad.dat file and or block.html
-sudo /etc/init.d/apache2 restart
 
 # run original squid start script
 exec /sbin/entrypoint.sh
