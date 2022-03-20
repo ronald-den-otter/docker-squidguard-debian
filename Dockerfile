@@ -16,7 +16,8 @@ RUN chmod 755 /etc/cron.daily/shalla_update.sh
 RUN sed -i '/http_access allow localnet/s/^#//g' /etc/squid/squid.conf
 RUN echo "forward_max_tries 25" >> /etc/squid/squid.conf
 RUN echo "redirect_program /usr/bin/squidGuard -c /etc/squidguard/squidGuard.conf" >> /etc/squid/squid.conf
-RUN echo "cache_store_log stdio:/var/log/squid/cache.log " >> /etc/squid/squid.conf
+RUN echo "cache_store_log stdio:/custom-config/logs/cache.log " >> /etc/squid/squid.conf
+RUN echo "access_log daemon:/custom-config/logs/access.log squid" >> /etc/squid/squid.conf
 RUN echo "memory_cache_mode always" >> /etc/squid/squid.conf
 RUN echo "max_stale 1 day" >> /etc/squid/squid.conf
 RUN echo "ipcache_size 1024" >> /etc/squid/squid.conf
@@ -26,6 +27,14 @@ RUN echo "cache_mem 512 MB" >> /etc/squid/squid.conf
 RUN echo "cache_dir ufs /var/spool/squid 128 16 256" >> /etc/squid/squid.conf
 RUN echo "dns_nameservers 192.168.2.1" >> /etc/squid/squid.conf
 RUN echo "dns_nameservers 192.168.2.7" >> /etc/squid/squid.conf
+RUN echo "acl snmpnet src 127.0.0.1" >> /etc/squid/squid.conf
+RUN echo "acl snmpnet src 192.168.2.1" >> /etc/squid/squid.conf
+RUN echo "acl snmppublic snmp_community public" >> /etc/squid/squid.conf
+RUN echo "snmp_port 3401" >> /etc/squid/squid.conf
+#RUN echo "snmp_access allow snmppublic snmpnet" >> /etc/squid/squid.conf
+#RUN echo "snmp_access allow snmppublic all" >> /etc/squid/squid.conf
+RUN echo "snmp_access allow all" >> /etc/squid/squid.conf
+#RUN echo "snmp_access deny all" >> /etc/squid/squid.conf
 
 RUN rm /etc/squidguard/squidGuard.conf
 ADD sample-config-blacklist /sample-config-blacklist
@@ -39,6 +48,7 @@ ADD startSquidGuard /startSquidGuard
 RUN chmod a+x /startSquidGuard
 
 EXPOSE 3128
+EXPOSE 3401/udp
 VOLUME [ "/var/spool/squid" ]
 
 CMD [ "/startSquidGuard" ]
